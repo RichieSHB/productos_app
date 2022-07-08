@@ -8,23 +8,23 @@ class Inputdecorations {
     return InputDecoration(
       enabledBorder: const UnderlineInputBorder(
         borderSide: BorderSide(
-          color: Colors.deepPurple,
+          color: Colors.amber,
         ),
       ),
       focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-        color: Colors.deepPurple,
+        color: Colors.amber,
         width: 2,
       )),
       hintText: hintText,
       labelText: labelText,
       labelStyle: const TextStyle(
-        color: Colors.deepPurple,
+        color: Colors.amber,
       ),
       prefixIcon: prefixIcon != null
           ? Icon(
               prefixIcon,
-              color: Colors.deepPurple,
+              color: Colors.amber,
             )
           : null,
     );
