@@ -64,10 +64,11 @@ class _ProductScreenBody extends StatelessWidget {
                         if (pickedFile == null) {
                           // print('NO Selecciono Imagen');
                           return;
-                        }        
+                        }
 
                         // print('Tenemos imagen ${pickedFile.path}');
-                        productsService.updateSelectedProductImage(pickedFile.path);
+                        productsService
+                            .updateSelectedProductImage(pickedFile.path);
                       },
                       icon: const Icon(
                         Icons.camera_alt_rounded,
@@ -86,12 +87,26 @@ class _ProductScreenBody extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+        onPressed: 
+        productsService.isSaving
+            ? null
+            :
+        () async {
           if (!productform.isValidForm()) return;
+
+          final String? imageUrl = await productsService.uploadImage();
+
+          if (imageUrl != null) {
+            productform.product.picture = imageUrl;
+          }
 
           productsService.saveOrCreateProduct(productform.product);
         },
-        child: const Icon(Icons.save_alt_rounded),
+        child: 
+        productsService.isSaving
+            ? const CircularProgressIndicator(
+                color: Colors.white,)
+            : const Icon(Icons.save_alt_rounded),
       ),
     );
   }

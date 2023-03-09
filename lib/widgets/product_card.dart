@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:productos_app/models/models.dart';
 
@@ -5,6 +7,7 @@ class ProductCard extends StatelessWidget {
   const ProductCard({Key? key, required this.product}) : super(key: key);
 
   final Product product;
+
 
   @override
   Widget build(BuildContext context) {
@@ -193,17 +196,34 @@ class _BackgroundImage extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         height: 400,
-        child: url == null
-            ? const Image(
-                image: AssetImage('assets/no-image.png'),
-                fit: BoxFit.cover,
-              )
-            : FadeInImage(
-                placeholder: const AssetImage('assets/jar-loading.gif'),
-                image: NetworkImage(url!),
-                fit: BoxFit.cover,
-              ),
+        child: getImage( url)
       ),
     );
   }
+
+Widget getImage(String? picture) {
+    if (picture == null) {
+      return const Image(
+        image: AssetImage('assets/no-image.png'),
+        fit: BoxFit.cover,
+      );
+    }
+
+    if (picture.startsWith('http')) {
+      return FadeInImage(
+        placeholder: const AssetImage('assets/jar-loading.gif'),
+        image: NetworkImage(url!),
+        fit: BoxFit.cover,
+      );
+    }
+
+    return Image.file(
+      File(picture),
+      fit: BoxFit.cover,
+    );
+  }
+
 }
+
+
+

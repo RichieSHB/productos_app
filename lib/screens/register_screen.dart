@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:productos_app/providers/login_form_provider.dart';
+import 'package:productos_app/services/servides.dart';
 import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../services/servides.dart';
-
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    'Login',
+                    'Crear Cuenta',
                     style: Theme.of(context).textTheme.headline4,
                   ),
                   const SizedBox(
@@ -43,10 +42,9 @@ class LoginScreen extends StatelessWidget {
               height: 150,
             ),
             TextButton(
-              onPressed: () =>
-                  Navigator.pushReplacementNamed(context, 'register'),
+              onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
               child: const Text(
-                'Create New Account',
+                '¿Ya tienes una cuenta?',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
@@ -120,15 +118,17 @@ class _LoginForm extends StatelessWidget {
                     if (!loginForm.isValidForm()) return;
                     loginForm.isLoading = true;
 
-                    final String? errorMessage = await authService.login(
-                        loginForm.email, loginForm.password);
-
+                    final String? errorMessage = await authService.createrUser(
+                    loginForm.email, loginForm.password);
+                    
                     if (errorMessage == null) {
-                      Navigator.pushReplacementNamed(context, 'home');
-                    } else {
-                      print(errorMessage);
-                      loginForm.isLoading = false;
-                    }
+                    Navigator.pushReplacementNamed(context, 'home');
+                  } else {
+                    print(errorMessage);
+                    loginForm.isLoading = false;
+                  }
+
+                    
                   },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
